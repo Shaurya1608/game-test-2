@@ -39,14 +39,22 @@
         /**
          * Initialize the SDK
          */
-        init(gameId, config = {}) {
-            if (this.initialized && this.context.gameId) return;
-            
-            this.context.gameId = gameId;
-            this.config = { ...this.config, ...config };
+        init(gameIdOrConfig, config = {}) {
+            if (typeof gameIdOrConfig === 'object' && gameIdOrConfig !== null) {
+                this.context.gameId = gameIdOrConfig.gameId || gameIdOrConfig.gameKey;
+                this.config = { ...this.config, ...gameIdOrConfig };
+            } else {
+                this.context.gameId = gameIdOrConfig;
+                this.config = { ...this.config, ...config };
+            }
             
             if (this.config.debug) {
-                console.log(`[GamerThred] SDK v${this.version} Initialized for: ${gameId}`);
+                console.log(`[GamerThred] SDK v${this.version} Initialized for: ${this.context.gameId}`);
+            }
+
+            // If we have an onInit callback in config, trigger it if already initialized by platform
+            if (this.config.onInit && this.initialized) {
+                this.config.onInit();
             }
         }
 
@@ -149,6 +157,7 @@
                         this.context.platformOrigin = e.origin;
                         this.initialized = true;
                         this._trigger("ready", data);
+                        if (this.config.onInit) this.config.onInit(data);
                         if (this.config.debug) console.log("[GamerThred] Platform Sync Complete.");
                         break;
                     
