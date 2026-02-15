@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cosmic Dash - GamerThred Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Load SDK First -->
+    <script src="gamethread-sdk.js"></script>
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- Dashboard UI -->
+        <div id="ui-layer">
+            <div class="header">
+                <div class="stat-box">
+                    <span class="label">OXYGEN</span>
+                    <span id="score">0</span>
+                </div>
+                <div id="sync-status" class="badge">SDK STANDBY</div>
+            </div>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="overlay">
+            <h1 class="glitch" data-text="COSMIC DASH">COSMIC DASH</h1>
+            <p>HARVEST FLOATING OXYGEN ORBS. AVOID THE VOID.</p>
+            <button id="start-btn">INITIALIZE LINK</button>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over" class="overlay hidden">
+            <h2 class="text-red">VOID REACHED</h2>
+            <div class="final-stats">
+                <span>FINAL HARVEST</span>
+                <span id="final-score" class="big-num">0</span>
+            </div>
+            <button onclick="window.location.reload()">RE-INITIALIZE</button>
+        </div>
+
+        <canvas id="gameCanvas"></canvas>
+    </div>
+    <script src="game.js"></script>
+</body>
+
+</html>
